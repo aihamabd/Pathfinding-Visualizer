@@ -1,0 +1,100 @@
+#nav-bar {
+  width: 100vw;
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  background-color: grey;
+  -webkit-box-shadow: 0 4px 10px 0 #a0a0a0;
+          box-shadow: 0 4px 10px 0 #a0a0a0;
+}
+
+.nav-button {
+  width: 20vw;
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  background-color: grey;
+}
+
+.nav-button:hover {
+  background-color: #646464;
+}
+
+.behind-button {
+  width: 10vw;
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  background-color: grey;
+}
+
+.behind-button:hover {
+  background-color: #646464;
+}
+
+.button-holder {
+  width: 20vw;
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.front-button {
+  width: 20vw;
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  right: 80vw;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  z-index: 2;
+  background-color: grey;
+  transition: 300ms;
+}
+
+.hidden {
+  right: 60vw;
+  -webkit-box-shadow: 0 -4px 10px 0 #383838;
+          box-shadow: 0 -4px 10px 0 #383838;
+}
+/*# sourceMappingURL=App.css.map */

@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+
+    font-family: 'Kanit', sans-serif;
+
+    font-size: 2vh;
+    font-weight: 400;
+
+
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+$radioScalar: 1vh / 3.5;
+
+#root {
+    width: 100%;
+    height: 100vh;
+}
+
+#modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(75, 75, 75, 0.7);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 5;
+}
+
+.modal {
+    width: 30rem;
+    height: 35rem;
+
+    padding: 0.5rem;
+
+    border: 1px solid rgb(120, 120, 120);
+    border-radius: 5px;
+
+    background: white;
+    opacity: 1;
+
+    display: flex;
+}
+
+.modal-close {
+    margin-left: auto;
+	overflow: hidden;
+	position: absolute;
+	border: none;
+	padding: 0;
+
+	width: 2em; 
+    height: 2em;
+
+	border-radius: 50%;
+	background: transparent;
+	color: rgb(120, 120, 120);
+
+	cursor: pointer;
+    transition: 200ms;
+	
+	&:hover {
+		background: rgba(50, 50, 50, .15)
+	}
+	
+	&:before, &:after {
+		position: absolute;
+		top: 15%; left: calc(50% - .0625em);
+		width: .120em; height: 70%;
+		border-radius: .125em;
+		transform: rotate(45deg);
+		background: currentcolor;
+		content: '';
+	}
+	
+	&:after { transform: rotate(-45deg); }
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 25vh;
+    }
+}
+
+.slide {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 80%;
+    height: 100%;
+}
+
+.slide-header {
+    height: 15%;
+
+    color: rgb(75, 75, 75);
+
+    text-align: center;
+    font-weight: bolder;
+    font-size: 3vh;
+}
+
+.slide-content {
+    height: auto;
+
+    color: rgb(120, 120, 120);
+
+    font-size: 2vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.div-slide-content {
+    height: 37vh;
+
+    color: rgb(120, 120, 120);
+
+    font-size: 2vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+
+    div {
+        display: flex;
+    }
+}
+
+.arrow {
+    font-family: Courier, monospace;
+    font-size: 6vh;
+    font-weight: 600;
+
+    color: rgb(120, 120, 120);
+
+    position: absolute;
+
+    cursor: pointer;
+
+    transition: 200ms;
+
+    &.right {
+        transform: translate(300%, 335%);
+    }
+    &.left {
+        transform: translate(-300%, 335%);
+    }
+
+    &:hover {
+        color: rgb(50, 50, 50);
+    }
+}
+
+.page-counter {
+    font-size: 2vh;
+    height: 6.05vh;
+    position: absolute;
+    transform: translate(0, 407%); 
+
+    color: rgb(120, 120, 120);
+}
+
+
+.radio-toolbar {
+    margin: 6.2 * $radioScalar;
+    width: 48 * $radioScalar;
+    height: 12 * $radioScalar;
+    background-color: rgb(215, 215, 215);
+    border-radius: 5px;
+    padding: 0.8 * $radioScalar;
+
+    display: flex;
+    justify-content: space-between;
+
+    img {
+        width: 8.4 * $radioScalar;
+    }
+
+    input {
+        display: none;
+
+        width: 12 * $radioScalar;
+        height: 12 * $radioScalar;
+    }
+
+    label {
+        display: block;
+
+        width: 11 * $radioScalar;
+        height: 11 * $radioScalar;
+
+        padding: 1.3 * $radioScalar;
+
+        border-radius: 5px;
+
+        transition: all 200ms ease;
+        cursor: pointer;
+
+        z-index: 1;
+    }
+
+
+    .radio-slider {
+        position: absolute;
+        width: 10.5 * $radioScalar;
+        height: 10.5 * $radioScalar;
+        border-radius: 5px;
+        background-color: rgb(179, 179, 179);
+        
+        transition: all 400ms ease;
+        margin: auto;
+    }
+
+    #radio1:checked ~ .radio-slider {
+        left: 7.3 * $radioScalar;
+    }
+    #radio2:checked ~ .radio-slider {
+        left: 19 * $radioScalar;
+    }
+    #radio3:checked ~ .radio-slider {
+        left: 31 * $radioScalar;
+    }
+    #radio4:checked ~ .radio-slider {
+        left: 42.75 * $radioScalar;
+    }
+}
+
+.cellprop {
+    width: 3vh;
+    height: 3vh;
+
+	border-radius: 50%;
+
+    margin-right: 5vh;
+
+    box-shadow: 0 0 4px 0 rgb(160, 160, 160);
+
+    &.wall {
+        background-color: grey;
+
+		border-radius: 20%;
+    }
+    &.start {
+        background-color: rgb(85, 255, 85);
+    }
+	&.end {
+		background-color: rgb(255, 85, 85);
+	}
+	&.visited {
+		background-color: rgb(0, 155, 255);
+	}
+	&.path {
+		background-color: rgb(255, 255, 25);
+	}
+}

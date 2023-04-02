@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            *  {
+                margin: 0;
+            }
+            .parent {
+                background-color: red;
+                width: 50%;
+                height: 100vh;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .child-one {
+                width: 50%;
+                height: 50vh;
+                background-color: blue;
+
+                display: flex;
+
+    
+
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class ='parent'>
+            <div class = 'child-one'>
+                child one
+            </div>
+        </div>
+        <script>
+            array = [1, 14, 10, 16, 7, 463, 4, 124];
+            goal = 463;
+
+            index = 0;
+            number = array[index];
+
+            while(number != goal) {
+                index ++;
+                number = array[index];
+            }
+
+            console.log(index);
+      
+        </script>
+    </body>
+</html>

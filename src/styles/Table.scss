@@ -1,0 +1,169 @@
+$rows: 17;
+$cols: 43;
+
+$maxWidth: 85vw;
+
+$animationDuration: 550ms;
+
+#table-holder {
+    width: $maxWidth;
+    height: auto;
+
+    margin: auto;
+    margin-top: 3vh;
+
+    padding: 0.5rem;
+
+    border: 1px solid rgb(179, 179, 179);
+    border-radius: 5px;
+
+    box-shadow: 0 2px 7px 0 rgb(179, 179, 179);
+}
+
+#main-table {
+	margin: auto;
+
+    border-collapse: collapse;
+
+    tr {
+        padding: 0;
+
+        height: $maxWidth / $cols;
+    }
+    td {
+        box-sizing: content-box;
+
+        border: 0.1px;
+        padding: 0;
+
+        border-style: solid;
+        border-color: rgb(197, 197, 197);
+        height: $maxWidth / $cols;
+        width: $maxWidth / $cols;
+    }
+}
+
+.cell {
+    width: 90%;
+    height: 90%;
+
+	margin: auto;
+
+	border-radius: 50%;
+
+    &.wall {
+        background-color: grey;
+
+		border-radius: 20%;
+
+        animation: wallCreation $animationDuration;
+
+		&.dying {
+			animation: wallDeath $animationDuration ease-in;
+		}
+    }
+    &.start {
+        background-color: rgb(85, 255, 85);
+
+		animation: commonCreation $animationDuration;
+		&.dying {animation: commonDeath $animationDuration ease-out}
+    }
+	&.end {
+		background-color: rgb(255, 85, 85);
+
+		animation: commonCreation $animationDuration;
+		&.dying {animation: commonDeath $animationDuration ease-out}
+	}
+	&.visited {
+		background-color: rgb(0, 155, 255);
+
+		animation: commonCreation $animationDuration;
+		&.dying {animation: commonDeath $animationDuration ease-out}
+
+		&.instant {animation: none}
+	}
+	&.path {
+		background-color: rgb(255, 255, 25);
+
+		animation: commonCreation $animationDuration;
+		&.dying {animation: commonDeath $animationDuration ease-out}
+
+		&.instant {animation: none}
+	}
+}
+
+@keyframes wallCreation {
+    from {
+      	opacity: 0;
+      	width: 0;
+      	height: 0;
+    }
+    50% {
+      	width: 100%;
+      	height: 100%;
+
+      	transform: rotate(-10deg);
+    }
+    70% {
+      	width: 90%;
+      	height: 90%;
+
+      	transform: rotate(7deg);
+    }
+    80% {
+      	width: 95%;
+      	height: 95%;
+
+      	transform: rotate(-4deg);
+    }
+    to {
+      	opacity: 1;
+      	height: 85%;
+      	width: 85%;
+
+      	transform: rotate(1deg)
+    }
+}
+
+@keyframes wallDeath {
+	to {
+		width: 0;
+		height: 0;
+		background-color: red;
+		transform: rotate(600deg);
+		opacity: 0;
+	}
+}
+
+@keyframes commonCreation {
+	from {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+	60% {
+		width: 90%;
+		height: 90%;
+	}
+
+	70% {
+		width: 87%;
+		height: 87%;
+	}
+
+	to {
+		opacity: 1;
+		height: 85%;
+		width: 85%;
+	}
+}
+
+@keyframes commonDeath {
+
+	to {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+}
