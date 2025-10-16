@@ -1,6 +1,6 @@
 function primsMaze(rows, cols) {
     function compareArrays(arr1, arr2) {
-        if (arr1[0] == arr2[0] && arr1[1] == arr2[1]) {
+        if (arr1[0] === arr2[0] && arr1[1] === arr2[1]) {
             return true;
         }
         return false;
@@ -53,7 +53,7 @@ function primsMaze(rows, cols) {
         for (let i = 0; i < neighbors.length; i++) {
             visited = false;
             for (let j = 0; j < closed.length; j++) {
-                if (compareArrays([neighbors[i][0], neighbors[i][1]], [closed[j][0], closed[j][1]])) {
+            if (compareArrays([neighbors[i][0], neighbors[i][1]], [closed[j][0], closed[j][1]])) {
                     visited = true;
                 }
             }
