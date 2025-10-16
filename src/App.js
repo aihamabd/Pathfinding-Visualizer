@@ -254,20 +254,30 @@ function App() {
 			</div>
             
 
-            <div className = "radio-toolbar">
+            <div className = "radio-toolbar" role = "group" aria-label = "Tool selection">
                 <input type = 'radio' id = "radio1" name = 'brush' onClick = {wall} defaultChecked/>
-                <label htmlFor = 'radio1'> <img src={WallIcon} alt="Wall brush" /> </label>
+                <label htmlFor = 'radio1'>
+                    <img src={WallIcon} alt="Wall brush" />
+                    <span className='label-text'>Wall</span>
+                </label>
 
                 <input type = 'radio' id = "radio2" name = 'brush' onClick = {empty} />
-                <label htmlFor = 'radio2'> <img src={EraserIcon} alt="Eraser brush" /> </label>
+                <label htmlFor = 'radio2'>
+                    <img src={EraserIcon} alt="Erase brush" />
+                    <span className='label-text'>Erase</span>
+                </label>
 
                 <input type = 'radio' id = "radio3" name = 'brush' onClick = {start} />
-                <label htmlFor = 'radio3'> <img src={FlagGreenIcon} alt="Start node brush" /> </label>
+                <label htmlFor = 'radio3'>
+                    <img src={FlagGreenIcon} alt="Start node brush" />
+                    <span className='label-text'>Start</span>
+                </label>
 
                 <input type = 'radio' id = "radio4" name = 'brush' onClick = {end} />
-                <label htmlFor = 'radio4'> <img src={FlagRedIcon} alt="End node brush" /> </label>
-
-                <div className = 'radio-slider'> </div>
+                <label htmlFor = 'radio4'>
+                    <img src={FlagRedIcon} alt="End node brush" />
+                    <span className='label-text'>End</span>
+                </label>
             </div>
 
 			<Table/>
