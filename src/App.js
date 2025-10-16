@@ -1,5 +1,5 @@
 import './styles/App.css';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './styles/Table.css';
 import Visualizer from './components/Visualizer.js';
 
@@ -9,15 +9,15 @@ import FlagGreenIcon from './svg/flag-green-icon.svg';
 import FlagRedIcon from './svg/flag-red-icon.svg';
 import PinSymbol from './svg/pin-symbol.svg';
 
-var brushType = 'wall';
+let brushType = 'wall';
 
 function wall() {brushType = 'wall'};
 function empty() {brushType = 'empty'};
 function start() {brushType = 'start'};
 function end() {brushType = 'end'};
 
-var tableRows = 17;
-var tableCols = 43;
+const tableRows = 17;
+const tableCols = 43;
 
 let visualizer = new Visualizer(tableRows, tableCols);
 
@@ -36,8 +36,8 @@ class Cell extends React.Component {
 
         let type = 'empty';
 
-        if (x == 1 && y == 1) {visualizer.setStart(this); type = 'start'};
-        if (x == tableRows - 2 && y == tableCols - 2) {visualizer.setEnd(this); type = 'end'};
+        if (x === 1 && y === 1) {visualizer.setStart(this); type = 'start'};
+        if (x === tableRows - 2 && y === tableCols - 2) {visualizer.setEnd(this); type = 'end'};
 
         this.state = {
             content: <div draggable = 'false' className = {'cell ' + type} ></div>,
@@ -63,30 +63,30 @@ class Cell extends React.Component {
 
         if (!this.mutable || visualizer.onCoolDown) {return}
 
-        if (event.type == 'mouseup') {visualizer.mouseDown = false; return}
-        else if (event.type == 'mousedown') {visualizer.mouseDown = true}
-        else if (event.type == 'mouseover' && !visualizer.mouseDown) {return}
+        if (event.type === 'mouseup') {visualizer.mouseDown = false; return}
+        else if (event.type === 'mousedown') {visualizer.mouseDown = true}
+        else if (event.type === 'mouseover' && !visualizer.mouseDown) {return}
 
-        var contentType = this.state.contentType;
+        const contentType = this.state.contentType;
 
-        if (contentType == 'start' || contentType == 'end') {return}
-        if ((brushType == 'start' || brushType == 'end') && event.type == 'mouseover') {return}
-        if (contentType == brushType) {return}
+        if (contentType === 'start' || contentType === 'end') {return}
+        if ((brushType === 'start' || brushType === 'end') && event.type === 'mouseover') {return}
+        if (contentType === brushType) {return}
 
-        if (brushType == 'empty' && (contentType == 'path' || contentType == 'visited')) {return}
+        if (brushType === 'empty' && (contentType === 'path' || contentType === 'visited')) {return}
         
         //execute update
 
         if (visualizer.visualized) {
-            setTimeout(() => {visualizer.instantPath()}, 600);
+            visualizer.after(600, () => { visualizer.instantPath(); });
         }
 
-        var delay;
+        let delay = 0;
             
         this.mutable = false;
-        if ((brushType == 'end' || brushType == 'start') && contentType !== 'empty') {this.kill(); delay = 500};
+        if ((brushType === 'end' || brushType === 'start') && contentType !== 'empty') {this.kill(); delay = 500};
 
-        setTimeout(() => {
+        visualizer.after(delay, () => {
             switch(brushType) {
                 case 'wall':  visualizer.updateCell('wall', this); this.updateContent('wall'); break;
                 case 'empty': visualizer.updateCell('empty', this); this.kill(); break;
@@ -95,7 +95,7 @@ class Cell extends React.Component {
             }
             this.mutable = true;
             
-        }, delay);
+        });
 
     }
 
@@ -103,10 +103,10 @@ class Cell extends React.Component {
         this.mutable = false;
         this.updateContent(this.state.contentType, ' dying');
 
-        setTimeout(() => {
+        visualizer.after(500, () => {
             this.updateContent('empty');
             this.mutable = true;
-        }, 500);
+        });
     }
 }
 
@@ -119,7 +119,7 @@ class Cols extends React.Component {
         };
 
         this.cols = [];
-        var classes, key;
+        let classes, key;
 
         for (let i = 0; i < tableCols; i++) {
             classes = 'cols ' + props.index.toString() + '-' + i.toString();
@@ -143,7 +143,7 @@ class Rows extends React.Component {
         super();
 
         this.rows = [];
-        var classes;
+        let classes;
         for (let i = 0; i < tableRows; i++) {
             classes = 'rows ' + i.toString();
             this.rows.push(<tr className = {classes} key = {i}>
@@ -190,7 +190,7 @@ function Modal(props) {
 
 function Slider() {
     const slides = [
-        {header :'Pathfinding Visualizer' , content: [(<img src = {PinSymbol}></img>), <p className = 'slide-content'><br/>A tool made to demonstrate the behavior of pathfinding algorithms in a fun and interactive way.</p>]},
+        {header :'Pathfinding Visualizer' , content: [(<img src={PinSymbol} alt="Pin symbol" />), <p className = 'slide-content'><br/>A tool made to demonstrate the behavior of pathfinding algorithms in a fun and interactive way.</p>]},
         {header :'Pathfinders Goal', content: ['', <p className = 'slide-content'>The goal of a pathfinding algorithm is to search for and find a route from a starting point to an end point by evaluating and testing possible steps. <br/><br/><br/><br/><br/><br/><br/> Pathfinding algorithms are used in a wide variety of subjects from video games to self-driving vehicles and even in satellite navigational systems.</p>]},
         {header :'Node Types', content: ['', <div className = 'div-slide-content'> <div><div className = 'cellprop wall'/><p>Obstacles</p></div><div><div className = 'cellprop start'/>Start node</div><div><div className = 'cellprop end'/>End node</div><div><div className = 'cellprop visited'/>Visited nodes</div><div><div className = 'cellprop path'/>Final path</div></div>]},
         {header :'Different Algorithms', content: ['', <p className = 'slide-content'>This tool features two different algorithms:<br/><br/>A-star:<br/>This is an informed algorithm meaning that it knows the position of the end point and uses that information to search for a path more efficiently and is guaranteed to find an optimal path.<br/> <br/>Djikstra:<br/>Unlike A-star, Djikstra is an uninformed algorithm and works by first testing the closest possible move to the starting point and is also guaranteed to find an optimal path.</p>]}
@@ -198,14 +198,14 @@ function Slider() {
     const [currentIndex, setIndex] = useState(0);
 
     function slideRight() {
-        let isFirstSlide = currentIndex == 0;
+        let isFirstSlide = currentIndex === 0;
         let newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
 
         setIndex(newIndex);
     }
 
     function slideLeft() {
-        let isLastSlide = currentIndex == slides.length - 1;
+        let isLastSlide = currentIndex === slides.length - 1;
         let newIndex = isLastSlide ? 0 : currentIndex + 1;
 
         setIndex(newIndex);
@@ -225,14 +225,17 @@ function Slider() {
     )
 }
 
-
-document.addEventListener('mouseup', () => {visualizer.mouseDown = false});
-
 function App() {
     const [display, setDisplay] = useState(true);
     const [isHidden, setHidden] = useState(false);
     const hide = event => {setHidden (true)};
     const show = event => {setHidden (false)};
+
+    useEffect(() => {
+        const handleMouseUp = () => { visualizer.mouseDown = false; };
+        document.addEventListener('mouseup', handleMouseUp);
+        return () => document.removeEventListener('mouseup', handleMouseUp);
+    }, []);
 	return (
 		<Fragment>
 			<div id='nav-bar'>
@@ -253,16 +256,16 @@ function App() {
 
             <div className = "radio-toolbar">
                 <input type = 'radio' id = "radio1" name = 'brush' onClick = {wall} defaultChecked/>
-                <label htmlFor = 'radio1'> <img src = {WallIcon} /> </label>
+                <label htmlFor = 'radio1'> <img src={WallIcon} alt="Wall brush" /> </label>
 
                 <input type = 'radio' id = "radio2" name = 'brush' onClick = {empty} />
-                <label htmlFor = 'radio2'> <img src = {EraserIcon} /> </label>
+                <label htmlFor = 'radio2'> <img src={EraserIcon} alt="Eraser brush" /> </label>
 
                 <input type = 'radio' id = "radio3" name = 'brush' onClick = {start} />
-                <label htmlFor = 'radio3'> <img src = {FlagGreenIcon} /> </label>
+                <label htmlFor = 'radio3'> <img src={FlagGreenIcon} alt="Start node brush" /> </label>
 
                 <input type = 'radio' id = "radio4" name = 'brush' onClick = {end} />
-                <label htmlFor = 'radio4'> <img src = {FlagRedIcon} /> </label>
+                <label htmlFor = 'radio4'> <img src={FlagRedIcon} alt="End node brush" /> </label>
 
                 <div className = 'radio-slider'> </div>
             </div>

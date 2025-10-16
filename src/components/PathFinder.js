@@ -1,5 +1,14 @@
 import primsMaze from "./PrimsMaze";
 
+export const CellType = Object.freeze({
+    EMPTY: 0,
+    WALL: 1,
+    START: 2,
+    END: 3,
+    VISITED: 4,
+    PATH: 5,
+});
+
 class AstarNode {
     constructor(index, Hcost, Gcost, parent = null) {
         this.index = index;
@@ -47,7 +56,7 @@ class PathFinder {
         let grid = new Array(rows);
 
         for (let i = 0; i < grid.length; i++) {
-            grid[i] = new Array(cols).fill(0);
+            grid[i] = new Array(cols).fill(CellType.EMPTY);
         }
 
         return grid;
@@ -87,10 +96,10 @@ class PathFinder {
         let x = node.index[0];
         let y = node.index[1];
 
-        if (y - 1 >= 0 &&                  (this.grid[x][y - 1] == 0 || this.grid[x][y - 1] == 3)) {neighbors.push([x, y - 1])}
-        if (y + 1 < this.grid[0].length && (this.grid[x][y + 1] == 0 || this.grid[x][y + 1] == 3)) {neighbors.push([x, y + 1])}
-        if (x - 1 >= 0 &&                  (this.grid[x - 1][y] == 0 || this.grid[x - 1][y] == 3)) {neighbors.push([x - 1, y])}
-        if (x + 1 < this.grid.length &&    (this.grid[x + 1][y] == 0 || this.grid[x + 1][y] == 3)) {neighbors.push([x + 1, y])}
+        if (y - 1 >= 0 &&                  (this.grid[x][y - 1] === CellType.EMPTY || this.grid[x][y - 1] === CellType.END)) {neighbors.push([x, y - 1])}
+        if (y + 1 < this.grid[0].length && (this.grid[x][y + 1] === CellType.EMPTY || this.grid[x][y + 1] === CellType.END)) {neighbors.push([x, y + 1])}
+        if (x - 1 >= 0 &&                  (this.grid[x - 1][y] === CellType.EMPTY || this.grid[x - 1][y] === CellType.END)) {neighbors.push([x - 1, y])}
+        if (x + 1 < this.grid.length &&    (this.grid[x + 1][y] === CellType.EMPTY || this.grid[x + 1][y] === CellType.END)) {neighbors.push([x + 1, y])}
         
 
         return neighbors;
@@ -127,12 +136,12 @@ class PathFinder {
             let current = openNodes[0];
     
             for (let i = 1; i < openNodes.length; i++) {
-                if (openNodes[i].Fcost() < current.Fcost() || (openNodes[i].Fcost() == current.Fcost() && openNodes[i].Gcost < current.Gcost)) {
+                if (openNodes[i].Fcost() < current.Fcost() || (openNodes[i].Fcost() === current.Fcost() && openNodes[i].Gcost < current.Gcost)) {
                     current = openNodes[i];
                 }
             }
             if (!compareArrays(this.end, current.index) && !compareArrays(this.start, current.index)) {path[0].push(current.index)};
-            let i = openNodes.findIndex((node) => node.index == current.index);
+            let i = openNodes.findIndex((node) => node.index === current.index);
             openNodes.splice(i, 1);
             closedNodes.push(current);
     
@@ -190,7 +199,7 @@ class PathFinder {
                 }
             }
             if (!compareArrays(this.end, current.index) && !compareArrays(this.start, current.index)) {path[0].push(current.index)};
-            let i = openNodes.findIndex((node) => node.index == current.index);
+            let i = openNodes.findIndex((node) => node.index === current.index);
             openNodes.splice(i, 1);
             closedNodes.push(current);
     
@@ -235,19 +244,19 @@ function typeToId(type) {
     var id;
 
     switch(type) {
-        case 'empty'  : id = 0; break;
-        case 'wall'   : id = 1; break;
-        case 'start'  : id = 2; break;
-        case 'end'    : id = 3; break;
-        case 'visited': id = 4; break;
-        case 'path'   : id = 5; break;
+        case 'empty'  : id = CellType.EMPTY; break;
+        case 'wall'   : id = CellType.WALL; break;
+        case 'start'  : id = CellType.START; break;
+        case 'end'    : id = CellType.END; break;
+        case 'visited': id = CellType.VISITED; break;
+        case 'path'   : id = CellType.PATH; break;
     }
 
     return id;
 }
 
 function compareArrays(arr1, arr2) {
-    if (arr1[0] == arr2[0] && arr1[1] == arr2[1]) {
+    if (arr1[0] === arr2[0] && arr1[1] === arr2[1]) {
         return true;
     }
     return false;
